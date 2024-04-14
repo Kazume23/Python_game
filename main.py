@@ -1,16 +1,21 @@
 from character import Warrior, Archer, Mage
+import character
 from item import *
 import random
-import pygame
 
-pygame.init()
+characters = ["Warrior", "Archer", "Mage"]
 
-warrior = Warrior(name="Warrior", armor=random.choice(warrior_armor), weapon=random.choice(warrior_weapons))
-archer = Archer(name="Archer", armor=random.choice(archer_armor), weapon=random.choice(archer_weapons))
-mage = Mage(name="Mage", armor=random.choice(mage_armor), weapon=random.choice(mage_weapon))
+classes = {
+    "Warrior": Warrior(name="Warrior", armor=random.choice(warrior_armor), weapon=random.choice(warrior_weapons)),
+    "Archer": Archer(name="Archer", armor=random.choice(archer_armor), weapon=random.choice(archer_weapons)),
+    "Mage": Mage(name="Mage", armor=random.choice(mage_armor), weapon=random.choice(mage_weapon))
+}
 
-player = warrior
-enemy = mage
+player_choose = character.chosen_character("Player 1", characters)
+player = classes.get(player_choose)
+
+enemy_choose = character.chosen_character("Player 2", characters)
+enemy = classes.get(enemy_choose)
 
 while True:
     if player.weapon.speed > enemy.weapon.speed:
@@ -52,19 +57,15 @@ while True:
 # 4. Jak wszystko skoncze to później zrobić klasy postaci z doborem eq i danym dmg  DONE
 # 5. Dodac maga i inne przeliczniki na mage dmg                                     DONE
 # 6. Refactoring kodu na przejrzysty                                                DONE
-# 7. Pobieranie nazw graczy
-# 8. Możliwosc wyboru klas przez graczy
-
-
-# PYGAME
-
-# 1. Wrzucic Pygame aby sie wyswietlalo okno z dwoma postaciami
+# 7. Możliwosc wyboru klas przez graczy                                             DONE
+# 8. Dodanie spelli dla maga na dmg/heal
 
 
 # Fixes
 
 # 1.  Naprawić mechanikę dodge bo się psuje(cos z matma)                             Done
 # 2.  I znowu zjebałem gita lets goooooooooo                                         Done
+# 3.  Refactoring na angielski
 
 
 # Balance

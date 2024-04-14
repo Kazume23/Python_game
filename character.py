@@ -1,5 +1,4 @@
 import random
-from item import *
 
 
 class Character:
@@ -12,9 +11,6 @@ class Character:
 
         self.crit = crit
 
-        self.weapon_index = 0
-        self.armor_index = 0
-
     def attack(self, target) -> None:
         if random.randint(1, 100) >= target.armor.dodge:
             if random.randint(0, 100) <= self.crit:
@@ -22,31 +18,28 @@ class Character:
                     target.hp -= max(0, (self.weapon.dmg * 2))
                     target.hp = max(target.hp, 0)
                     print(
-                        f"{self.name} JEBNĄŁ KRYTA {self.weapon.dmg * 2}dmg {self.name} bijąc {max(0, (self.weapon.dmg * 2))} z {self.weapon.name}")
+                        f"{self.name} dealt CRITICAL {self.weapon.dmg * 2}dmg {self.name} inflicting {max(0, (self.weapon.dmg * 2))} z {self.weapon.name}")
 
                 else:
                     target.hp -= max(0, (self.weapon.dmg * 2) - target.armor.protection)
                     target.hp = max(target.hp, 0)
                     print(
-                        f"{self.name} JEBNĄŁ KRYTA {self.weapon.dmg * 2}dmg {self.name} bijąc {max(0, (self.weapon.dmg * 2) - target.armor.protection)} z {self.weapon.name}")
+                        f"{self.name} dealt CRITICAL {self.weapon.dmg * 2}dmg {self.name} inflicting {max(0, (self.weapon.dmg * 2) - target.armor.protection)} z {self.weapon.name}")
 
             else:
                 if self.weapon.weapon_type == "Magic":
                     target.hp -= max(0, self.weapon.dmg)
                     target.hp = max(target.hp, 0)
                     print(
-                        f"{self.name} zadał {self.weapon.dmg}dmg {self.name} bijąc {max(0, self.weapon.dmg)} z {self.weapon.name}")
+                        f"{self.name} dealt {self.weapon.dmg}dmg {self.name} inflicting {max(0, self.weapon.dmg)} with {self.weapon.name}")
                 else:
                     target.hp -= max(0, self.weapon.dmg - target.armor.protection)
                     target.hp = max(target.hp, 0)
                     print(
-                        f"{self.name} zadał {self.weapon.dmg}dmg {self.name} bijąc {max(0, self.weapon.dmg - target.armor.protection)} z {self.weapon.name}")
+                        f"{self.name} dealt {self.weapon.dmg}dmg {self.name} inflicting {max(0, self.weapon.dmg - target.armor.protection)} with {self.weapon.name}")
         else:
             print(
-                f"{self.name} nie trafił przeciwnika")
-
-    def current_weapon(self):
-        return self.weapon[self.weapon_index]
+                f"{self.name} miss the target")
 
 
 class Warrior(Character):
@@ -62,3 +55,22 @@ class Archer(Character):
 class Mage(Character):
     def __init__(self, name: str, armor: str, weapon: str, ) -> None:
         super().__init__(name=name, hp=70, crit=20, armor=armor, weapon=weapon)
+
+    def cast_spell(self, target):
+        print("test")
+
+
+def chosen_character(player_name, characters: list):
+    print(characters)
+    for i, character in enumerate(characters, start=1):
+        print(f"{i}.  {character}")
+
+    while True:
+        try:
+            choice = int(input(f"{player_name} choose your character")) - 1
+            if 0 <= choice < len(characters):
+                return characters[choice]
+            else:
+                print("Wrong number choose again")
+        except ValueError:
+            print("Please enter a number")
