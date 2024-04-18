@@ -17,6 +17,13 @@ class Weapon:
         self.value = value
 
 
+class Spell:
+    def __init__(self, name: str, dmg: int, mana: int):
+        self.name = name
+        self.dmg = dmg
+        self.mana = mana
+
+
 warrior_weapons = [
     Weapon("Miecz", 4, "Melee", 1, 50),
     Weapon("Topór", 5, "Melee", 0.75, 60),
@@ -49,10 +56,9 @@ mage_armor = [
     Armor("Szata maga", 1, "Light", 15, 20)
 ]
 
-
-class Spell:
-    def __init__(self, name: str, dmg: int, mana: int, speed: float):
-        self.name = name
-        self.dmg = dmg
-        self.mana = mana
-        self.speed = speed
+mage_spell = [
+    Spell("Fireball", 5, 15),
+    Spell("Ice nova", 3, 20),
+    Spell("Power up", 0, 25),
+    Spell("Greater heal", 0, 25)
+]

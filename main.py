@@ -8,7 +8,7 @@ characters = ["Warrior", "Archer", "Mage"]
 classes = {
     "Warrior": Warrior(name="Warrior", armor=random.choice(warrior_armor), weapon=random.choice(warrior_weapons)),
     "Archer": Archer(name="Archer", armor=random.choice(archer_armor), weapon=random.choice(archer_weapons)),
-    "Mage": Mage(name="Mage", armor=random.choice(mage_armor), weapon=random.choice(mage_weapon))
+    "Mage": Mage(name="Mage", armor=random.choice(mage_armor), weapon=random.choice(mage_weapon), spell=random.choice(mage_spell))
 }
 
 player_choose = character.chosen_character("Player 1", characters)
@@ -19,12 +19,12 @@ enemy = classes.get(enemy_choose)
 
 while True:
     if player.weapon.speed > enemy.weapon.speed:
-        player.attack(enemy)
+        player.action(enemy)
         if enemy.hp == 0:
             print(f"Player {player.name} win!!!")
             break
 
-        enemy.attack(player)
+        enemy.action(player)
         if player.hp == 0:
             print(f"Player {enemy.name} win!!!")
             break
@@ -33,12 +33,12 @@ while True:
         print(f"hp {enemy.name}: {enemy.hp}")
 
     else:
-        enemy.attack(player)
+        enemy.action(player)
         if player.hp == 0:
             print(f"Player {enemy.name} win!!!")
             break
 
-        player.attack(enemy)
+        player.action(enemy)
         if enemy.hp == 0:
             print(f"Player {player.name} win!!!")
             break
@@ -59,6 +59,8 @@ while True:
 # 6. Refactoring kodu na przejrzysty                                                DONE
 # 7. Możliwosc wyboru klas przez graczy                                             DONE
 # 8. Dodanie spelli dla maga na dmg/heal
+# 9. Rework combat'u  (more action)
+# 10.Rozróżnienie klas potaci a nazw postaci
 
 
 # Fixes
@@ -66,6 +68,8 @@ while True:
 # 1.  Naprawić mechanikę dodge bo się psuje(cos z matma)                             Done
 # 2.  I znowu zjebałem gita lets goooooooooo                                         Done
 # 3.  Refactoring na angielski
+# 4.  Nadawać nazwy graczy do wybieranych klas
+# 5.  Przy mirror klasach mają te same HP
 
 
 # Balance
