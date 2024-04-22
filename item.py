@@ -1,3 +1,6 @@
+import random
+
+
 class Armor:
     def __init__(self, name: str, protection: int, armor_type: str, dodge: int, value: int) -> None:
         self.name = name
@@ -27,7 +30,7 @@ class Spell:
 warrior_weapons = [
     Weapon("Sword", 4, "Melee", 1, 50),
     Weapon("Axe", 5, "Melee", 0.75, 60),
-    Weapon("Halberd", 5, "Melee", 0.50, 90)
+    Weapon("Halberd", 6, "Melee", 0.50, 90)
 ]
 
 archer_weapons = [
@@ -37,7 +40,7 @@ archer_weapons = [
 ]
 
 mage_weapon = [
-    Weapon("Magician's staff", 4, "Magic", 1.2, 200)
+    Weapon("Magician's staff", 2, "Magic", 1.2, 200)
 ]
 
 warrior_armor = [
@@ -47,9 +50,9 @@ warrior_armor = [
 ]
 
 archer_armor = [
-    Armor("Chest", 0, "Light", 50, 0),
-    Armor("Hood", 1, "Light", 40, 20),
-    Armor("Leather caftan", 2, "Light", 30, 40)
+    Armor("Chest", 0, "Light", 60, 0),
+    Armor("Hood", 1, "Light", 50, 20),
+    Armor("Leather caftan", 2, "Light", 40, 40)
 ]
 
 mage_armor = [
@@ -57,8 +60,8 @@ mage_armor = [
 ]
 
 mage_spell = [
-    Spell("Fireball", 5, 15),
-    Spell("Ice nova", 3, 20),
-    Spell("Power up", 0, 25),
-    Spell("Greater heal", 0, 25)
+    Spell("Fireball", random.randint(3, 12), 25),
+    Spell("Ice nova", random.randint(3, 7), 20),
+    Spell("Power up", random.randint(1, 2), 25),
+    Spell("Greater heal", random.randint(4, 16), 25)
 ]
