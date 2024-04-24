@@ -39,6 +39,7 @@ while True:
             print(f"Player {player.name} win!!!")
             break
 
+    print()
     print(f"hp {player.name}: {player.hp}")
     print(f"hp {enemy.name}: {enemy.hp}")
 

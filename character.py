@@ -56,14 +56,19 @@ class Character:
             print(f"{self.name} used potion and heal {healed} and now have {self.hp}HP")
 
     def action(self, target):
-        action_list = ["Attack", "Heal", "Cast spell"]
+        global spell_choice
+        if isinstance(self, Mage):
+            action_list = ["Attack", "Heal", "Cast spell"]
+        else:
+            action_list = ["Attack", "Heal"]
+        print()
         print(f"What do you want to do {self.name}?")
-        for i, actions in enumerate(action_list, start=1):
-            print(f"{i}.  {actions}")
+        for i, action in enumerate(action_list, start=1):
+            print(f"{i}. {action}")
+
         while True:
             try:
                 choice = int(input(f"{self.name} Choose action"))
-                print(choice)
                 if 0 < choice <= len(action_list):
                     if choice == 1:
                         self.attack(target)
@@ -71,14 +76,34 @@ class Character:
                     elif choice == 2:
                         self.potion(target)
                         break
-                    elif choice == 3:
-                        if isinstance(self, Mage):
-                            Mage.cast_spell(self, target)
-                            break
-                        else:
-                            print("Your class cannot cast spells")
+                    elif choice == 3 and isinstance(self, Mage):
+                        while True:
+                            try:
+                                print(f"{self.name} have currently {self.mana} left")
+                                print("Choose spell to cast:")
+                                for i, spell in enumerate(mage_spell, start=1):
+                                    print(f"{i}. {spell.name} ({spell.mana} mana)")
+                                print()
+                                spell_choice = int(input(f"{self.name} choose spell to cast")) - 1
+                                if 0 <= spell_choice < len(mage_spell):
+                                    self.cast_spell(target, mage_spell[spell_choice])
+                                    break
+                                else:
+                                    print()
+                                    print("Wrong number, choose again")
+                            except ValueError:
+                                print()
+                                print("Please enter a number")
+                        break
+                    else:
+                        print()
+                        print("Your class cannot cast spells")
+                else:
+                    print()
+                    print("Wrong number, choose again")
             except ValueError:
-                print("Wrong number choose again")
+                print()
+                print("Please enter a number")
 
 
 class Warrior(Character):
@@ -96,80 +121,38 @@ class Mage(Character):
         super().__init__(name=name, hp=70, crit=20, armor=armor, weapon=weapon, mana=100, pot=0)
         self.spell = spell
 
-    def cast_spell(self, target):
-        if random.randint(0, 100) <= self.crit:
-            crit = True
+    def cast_spell(self, target, spell):
+        if self.mana >= spell.mana:
+            self.mana -= spell.mana
+            if spell_choice == 2:
+                self.cast_power_up(spell)
+            elif spell_choice == 3:
+                self.cast_greater_heal(spell)
+            else:
+                self.cast_damage_spell(target, spell)
         else:
-            crit = False
+            print(f"{self.name}, you don't have enough mana")
+            Character.action(self, target)
 
-        spell_list = [f"{self.spell[0].name}            {self.spell[0].mana}",
-                      f"{self.spell[1].name}            {self.spell[1].mana}",
-                      f"{self.spell[2].name}            {self.spell[2].mana}",
-                      f"{self.spell[3].name}        {self.spell[3].mana}"]
-        print(f"{self.name} you currently have {self.mana} mana")
-        if self.mana <= 0:
-            print(f"{self.name} you have no mana")
+    def cast_power_up(self, spell):
+        rand = random.randint(1, 2)
+        self.weapon.dmg += spell.dmg + rand
+        print(f"{self.name} cast {spell.name} powering himself for {spell.dmg + rand}")
+
+    def cast_greater_heal(self, spell):
+        rand = random.randint(4, 14)
+        self.hp += spell.dmg + rand
+        print(f"{self.name} cast {spell.name} healing himself for {spell.dmg}")
+
+    def cast_damage_spell(self, target, spell):
+        if random.randint(1, 100) <= self.crit:
+            critChance = True
         else:
-            for i, spells in enumerate(spell_list, start=1):
-                print(f"{i}.  {spells}")
-
-            while True:
-                try:
-                    choice = int(input(f"{self.name} choose spell to cast")) - 1
-                    if 0 <= choice <= len(spell_list) - 1:
-                        if choice == 0 and self.mana >= self.spell[choice].mana:  # Fireball
-                            rand = random.randint(0, 9)
-                            if crit:
-                                target.hp -= max(0, ((self.spell[choice].dmg + rand) * 2))
-                                target.hp = max(target.hp, 0)
-                                self.mana -= self.spell[choice].mana
-                                print(
-                                    f"{self.name} cast {self.spell[choice].name} DEALING CRITICAL {(self.spell[choice].dmg + rand) * 2}DMG")
-                            else:
-                                target.hp -= max(0, (self.spell[choice].dmg + rand))
-                                target.hp = max(target.hp, 0)
-                                self.mana -= self.spell[choice].mana
-                                print(
-                                    f"{self.name} cast {self.spell[choice].name} dealing {self.spell[choice].dmg + rand}dmg")
-                            break
-                        elif choice == 1 and self.mana >= self.spell[choice].mana:  # Ice Nova
-                            rand = random.randint(0, 5)
-                            if crit:
-                                target.hp -= max(0, ((self.spell[choice].dmg + rand) * 2))
-                                target.hp = max(target.hp, 0)
-                                self.mana -= self.spell[choice].mana
-                                print(
-                                    f"{self.name} cast {self.spell[choice].name} DEALING CRITICAL {(self.spell[choice].dmg + rand) * 2}DMG")
-                            else:
-                                target.hp -= max(0, (self.spell[choice].dmg + rand))
-                                target.hp = max(target.hp, 0)
-                                self.mana -= self.spell[choice].mana
-                                print(
-                                    f"{self.name} cast {self.spell[choice].name} dealing {self.spell[choice].dmg + rand}dmg")
-                            break
-                        elif choice == 2 and self.mana >= self.spell[choice].mana:  # Power Up
-                            rand = random.randint(1, 3)
-                            self.weapon.dmg += self.spell[choice].dmg + rand
-                            self.mana -= self.spell[choice].mana
-                            print(
-                                f"{self.name} cast {self.spell[choice].name} powering himself for {self.spell[choice].dmg + rand}")
-                            break
-                        elif choice == 3 and self.mana >= self.spell[choice].mana:  # Greater Heal
-                            rand = random.randint(4, 14)
-                            self.hp += self.spell[choice].dmg + rand
-                            self.mana -= self.spell[choice].mana
-                            print(
-                                f"{self.name} cast {self.spell[choice].name} healing himself for {self.spell[choice].dmg}")
-                            break
-                        else:
-                            print(f"{self.name} you don't have mana")
-                            Character.action(self, target)
-                            break
-
-                    else:
-                        print("Wrong number choose again")
-                except ValueError:
-                    print("Please enter a number")
+            critChance = False
+        rand = random.randint(0, 9) if spell.name == "Fireball" else random.randint(0, 5)
+        dmg = (spell.dmg + rand) * 2 if critChance else spell.dmg + rand
+        target.hp -= max(0, dmg)
+        print(f"{self.name} cast {spell.name} {'DEALING CRITICAL ' if critChance else 'dealing'} {dmg}dmg")
 
 
 def chosen_character(player_name, characters: list):

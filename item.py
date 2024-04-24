@@ -63,5 +63,5 @@ mage_spell = [
     Spell("Fireball", 3, 20),
     Spell("Ice nova", 2, 10),
     Spell("Power up", 0, 25),
-    Spell("Greater heal", 0, 25)
+    Spell("Greater heal", 4, 20)
 ]
