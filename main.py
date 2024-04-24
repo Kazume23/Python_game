@@ -28,9 +28,6 @@ while True:
             print(f"Player {enemy.name} win!!!")
             break
 
-        print(f"hp {player.name}: {player.hp}")
-        print(f"hp {enemy.name}: {enemy.hp}")
-
     else:
         enemy.action(player)
         if player.hp == 0:
@@ -42,8 +39,8 @@ while True:
             print(f"Player {player.name} win!!!")
             break
 
-        print(f"Hp {enemy.name}: {enemy.hp}")
-        print(f"Hp {player.name}: {player.hp}")
+    print(f"hp {player.name}: {player.hp}")
+    print(f"hp {enemy.name}: {enemy.hp}")
 
     input()
 
@@ -62,6 +59,7 @@ while True:
 # 10.Rozróżnienie klas potaci a nazw postaci
 # 11.Dodanie ograniczonych liczb potek
 # 12.Cos zrobic odnosnie wyboru eq/armoru (wiekszy wybor)
+# 13.Refactoring Spelli
 
 # Fixes
 

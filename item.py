@@ -60,8 +60,8 @@ mage_armor = [
 ]
 
 mage_spell = [
-    Spell("Fireball", random.randint(3, 12), 25),
-    Spell("Ice nova", random.randint(3, 7), 20),
-    Spell("Power up", random.randint(1, 2), 25),
-    Spell("Greater heal", random.randint(4, 16), 25)
+    Spell("Fireball", 3, 20),
+    Spell("Ice nova", 2, 10),
+    Spell("Power up", 0, 25),
+    Spell("Greater heal", 0, 25)
 ]
