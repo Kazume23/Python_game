@@ -21,25 +21,25 @@ class Character:
                     target.hp -= max(0, (self.weapon.dmg * 2))
                     target.hp = max(target.hp, 0)
                     print(
-                        f"{self.name} dealt CRITICAL {self.weapon.dmg * 2}dmg {self.name} inflicting {max(0, (self.weapon.dmg * 2))} z {self.weapon.name}")
+                        f"{self.name} dealt CRITICAL {self.weapon.dmg * 2}dmg inflicting {max(0, (self.weapon.dmg * 2))} z {self.weapon.name}")
 
                 else:
                     target.hp -= max(0, (self.weapon.dmg * 2) - target.armor.protection)
                     target.hp = max(target.hp, 0)
                     print(
-                        f"{self.name} dealt CRITICAL {self.weapon.dmg * 2}dmg {self.name} inflicting {max(0, (self.weapon.dmg * 2) - target.armor.protection)} z {self.weapon.name}")
+                        f"{self.name} dealt CRITICAL {self.weapon.dmg * 2}dmg inflicting {max(0, (self.weapon.dmg * 2) - target.armor.protection)} z {self.weapon.name}")
 
             else:
                 if self.weapon.weapon_type == "Magic":
                     target.hp -= max(0, self.weapon.dmg)
                     target.hp = max(target.hp, 0)
                     print(
-                        f"{self.name} dealt {self.weapon.dmg}dmg {self.name} inflicting {max(0, self.weapon.dmg)} with {self.weapon.name}")
+                        f"{self.name} dealt {self.weapon.dmg}dmg inflicting {max(0, self.weapon.dmg)} with {self.weapon.name}")
                 else:
                     target.hp -= max(0, self.weapon.dmg - target.armor.protection)
                     target.hp = max(target.hp, 0)
                     print(
-                        f"{self.name} dealt {self.weapon.dmg}dmg {self.name} inflicting {max(0, self.weapon.dmg - target.armor.protection)} with {self.weapon.name}")
+                        f"{self.name} dealt {self.weapon.dmg}dmg inflicting {max(0, self.weapon.dmg - target.armor.protection)} with {self.weapon.name}")
         else:
             print(
                 f"{self.name} miss the target")

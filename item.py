@@ -35,12 +35,13 @@ warrior_weapons = [
 
 archer_weapons = [
     Weapon("Bow", 3, "Ranged", 1.75, 20),
-    Weapon("Crossbow", 4, "Ranged", 1.3, 60),
+    Weapon("Crossbow", 4, "Ranged", 1.5, 60),
     Weapon("Flintlock pistol", 5, "Ranged", 1.1, 110)
 ]
 
 mage_weapon = [
-    Weapon("Magician's staff", 2, "Magic", 1.2, 200)
+    Weapon("Magician's staff", 2, "Magic", 1.2, 200),
+    Weapon("Stick called Jeff", 5, "heavy", 1.6, 2137)
 ]
 
 warrior_armor = [

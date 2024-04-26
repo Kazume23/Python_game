@@ -44,32 +44,3 @@ while True:
     print(f"hp {enemy.name}: {enemy.hp}")
 
     input()
-
-# CO MA PROJEKT ROBIĆ
-
-# 0,5. Losować staty i eq dla przeciwnika                                           DONE
-# 1. Ma zakładać różne rodzai zbroi (łucznik nie może zakładać ironu etc)           DONE
-# 2. Mechanika dodge i kryta                                                        DONE
-# 3. Kiedy ktos umrzes to umrze i sie wyswietla wynik                               DONE
-# 4. Jak wszystko skoncze to później zrobić klasy postaci z doborem eq i danym dmg  DONE
-# 5. Dodac maga i inne przeliczniki na mage dmg                                     DONE
-# 6. Refactoring kodu na przejrzysty                                                DONE
-# 7. Możliwosc wyboru klas przez graczy                                             DONE
-# 8. Dodanie spelli dla maga na dmg/heal                                            DONE
-# 9. Rework combat'u  (more action)                                                 DONE
-# 10.Rozróżnienie klas potaci a nazw postaci
-# 11.Dodanie ograniczonych liczb potek
-# 12.Cos zrobic odnosnie wyboru eq/armoru (wiekszy wybor)
-# 13.Refactoring Spelli
-
-# Fixes
-
-# 1.  Naprawić mechanikę dodge bo się psuje(cos z matma)                            DONE
-# 2.  I znowu zjebałem gita lets goooooooooo                                        DONE
-# 3.  Refactoring na angielski                                                      DONE
-# 4.  Nadawać nazwy graczy do wybieranych klas
-# 5.  Przy mirror klasach mają te same HP
-
-
-# Balance
-# 1.  Potestować balans postaci i balans maga

@@ -1,0 +1,26 @@
+Project Objectives
+0.5. Randomize stats and equipment for opponents DONE
+1. Implement armor restrictions based on class (e.g., archers can't wear iron)      DONE
+2. Implement dodge and critical mechanics                                           DONE
+3. Implement player death and display results                                       DONE
+4. Create character classes with equipment selection and damage calculation         DONE
+5. Add mage class and other modifiers for mage damage                               DONE
+6. Refactor code for clarity                                                        DONE
+7. Allow players to choose classes                                                  DONE
+8. Add spells for mages for damage and healing                                      DONE
+9. Rework combat for more dynamic action                                            DONE
+10. Distinguish between character classes and character names
+11. Limit the number of potions available                                           DONE
+12. Implement equipment/armor choice with more options
+13. Refactor spells                                                                 DONE
+14. More dynamic and shorten fight
+
+Fixes
+1. Fix dodge mechanics as it's occasionally malfunctioning (possibly math-related)  DONE
+2. Fix Git repository                                                               DONE
+3. Refactor to English                                                              DONE
+4. Assign player names to selected classes
+5. Ensure mirrored classes have the same HP
+
+Balance
+1. Test character balance and mage balance
