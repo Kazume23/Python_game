@@ -23,4 +23,11 @@ Fixes
 5. Ensure mirrored classes have the same HP
 
 Balance
-1. Test character balance and mage balance
+1. Test character balance and mage balance                                          Testing
+2. Make Excel sheets for combat statistic
+
+
+
+Fight Summary
+
+Warior - Archer: (Axe 0-1 Pistol 4:48) (Halberd 0-1 Crossbow 2:14) (Axe 1:0 Crossbow 22:14) (Sword 0 - 1 Flintlock pistol  0:44) (Axe 1 - 0 Crossbow  26:0) (Sword 1 - 0 Bow  6:0) (Halberd 1 - 0 Bow  14:0) (Sword 0 - 1 Flintlock pistol  0:48) (Halberd 1 - 0 Crossbow  6:0) (Axe 1 - 0 Bow  24:0)

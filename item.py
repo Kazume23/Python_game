@@ -28,20 +28,20 @@ class Spell:
 
 
 warrior_weapons = [
-    Weapon("Sword", 4, "Melee", 1, 50),
-    Weapon("Axe", 5, "Melee", 0.75, 60),
-    Weapon("Halberd", 6, "Melee", 0.50, 90)
+    Weapon("Sword", 8, "Melee", 1, 50),
+    Weapon("Axe", 9, "Melee", 0.75, 60),
+    Weapon("Halberd", 10, "Melee", 0.50, 90)
 ]
 
 archer_weapons = [
-    Weapon("Bow", 3, "Ranged", 1.75, 20),
-    Weapon("Crossbow", 4, "Ranged", 1.5, 60),
-    Weapon("Flintlock pistol", 5, "Ranged", 1.1, 110)
+    Weapon("Bow", 6, "Ranged", 1.75, 20),
+    Weapon("Crossbow", 7, "Ranged", 1.5, 60),
+    Weapon("Flintlock pistol", 8, "Ranged", 1.1, 110)
 ]
 
 mage_weapon = [
-    Weapon("Magician's staff", 2, "Magic", 1.2, 200),
-    Weapon("Stick called Jeff", 5, "heavy", 1.6, 2137)
+    Weapon("Magician's staff", 4, "Magic", 1.2, 200),
+    Weapon("Stick called Jeff", 8, "Melee", 1.6, 2137)
 ]
 
 warrior_armor = [
@@ -61,8 +61,8 @@ mage_armor = [
 ]
 
 mage_spell = [
-    Spell("Fireball", 3, 20),
+    Spell("Fireball", 6, 20),
     Spell("Ice nova", 2, 10),
-    Spell("Power up", 0, 25),
-    Spell("Greater heal", 4, 20)
+    Spell("Power up", 0, 40),
+    Spell("Greater heal", 4, 30)
 ]

@@ -118,7 +118,7 @@ class Archer(Character):
 
 class Mage(Character):
     def __init__(self, name: str, armor: str, weapon: str, spell: str) -> None:
-        super().__init__(name=name, hp=70, crit=20, armor=armor, weapon=weapon, mana=100, pot=0)
+        super().__init__(name=name, hp=70, crit=20, armor=armor, weapon=weapon, mana=150, pot=0)
         self.spell = spell
 
     def cast_spell(self, target, spell):
@@ -135,21 +135,21 @@ class Mage(Character):
             Character.action(self, target)
 
     def cast_power_up(self, spell):
-        rand = random.randint(1, 2)
+        rand = random.randint(1, 3)
         self.weapon.dmg += spell.dmg + rand
         print(f"{self.name} cast {spell.name} powering himself for {spell.dmg + rand}")
 
     def cast_greater_heal(self, spell):
-        rand = random.randint(4, 14)
+        rand = random.randint(6, 20)
         self.hp += spell.dmg + rand
-        print(f"{self.name} cast {spell.name} healing himself for {spell.dmg}")
+        print(f"{self.name} cast {spell.name} healing himself for {spell.dmg + rand}")
 
     def cast_damage_spell(self, target, spell):
         if random.randint(1, 100) <= self.crit:
             critChance = True
         else:
             critChance = False
-        rand = random.randint(0, 9) if spell.name == "Fireball" else random.randint(0, 5)
+        rand = random.randint(0, 12) if spell.name == "Fireball" else random.randint(2, 8)
         dmg = (spell.dmg + rand) * 2 if critChance else spell.dmg + rand
         target.hp -= max(0, dmg)
         print(f"{self.name} cast {spell.name} {'DEALING CRITICAL ' if critChance else 'dealing'} {dmg}dmg")
