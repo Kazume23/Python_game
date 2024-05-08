@@ -9,7 +9,7 @@ Project Objectives
 7. Allow players to choose classes                                                  DONE
 8. Add spells for mages for damage and healing                                      DONE
 9. Rework combat for more dynamic action                                            DONE
-10. Distinguish between character classes and character names
+10. Distinguish between character classes and character names                       DONE
 11. Limit the number of potions available                                           DONE
 12. Implement equipment/armor choice with more options
 13. Refactor spells                                                                 DONE
@@ -19,8 +19,8 @@ Fixes
 1. Fix dodge mechanics as it's occasionally malfunctioning (possibly math-related)  DONE
 2. Fix Git repository                                                               DONE
 3. Refactor to English                                                              DONE
-4. Assign player names to selected classes
-5. Ensure mirrored classes have the same HP
+4. Assign player names to selected classes                                          DONE
+5. Ensure mirrored classes have the same HP                                         DONE
 
 Balance
 1. Test character balance and mage balance                                          Testing
