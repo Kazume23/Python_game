@@ -39,6 +39,10 @@ archer_weapons = [
     Weapon("Flintlock pistol", 8, "Ranged", 1.1, 110)
 ]
 
+berserk_weapons = [
+    Weapon("Axe", 8, "Melee", 0.90, 60)
+]
+
 mage_weapon = [
     Weapon("Magician's staff", 4, "Magic", 1.2, 200),
     Weapon("Stick called Jeff", 8, "Melee", 1.6, 2137)
@@ -54,6 +58,10 @@ archer_armor = [
     Armor("Chest", 0, "Light", 60, 0),
     Armor("Hood", 1, "Light", 50, 20),
     Armor("Leather caftan", 2, "Light", 40, 40)
+]
+
+berserk_armor = [
+    Armor("Chest", 0,"Light",10,0)
 ]
 
 mage_armor = [

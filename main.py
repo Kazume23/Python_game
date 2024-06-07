@@ -1,7 +1,7 @@
-from character import Warrior, Archer, Mage
+from character import Warrior, Archer, Mage, Berserk
 import character
 
-characters = [Warrior, Archer, Mage]
+characters = [Warrior, Archer, Mage, Berserk]
 
 player = character.chosen_character("Player 1", characters)
 enemy = character.chosen_character("Player 2", characters)

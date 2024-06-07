@@ -1,3 +1,5 @@
+import random
+
 from item import *
 
 
@@ -22,6 +24,14 @@ class Character:
                     target.hp = max(target.hp, 0)
                     print(
                         f"{self.name} {self.class_name} dealt CRITICAL {self.weapon.dmg * 2}dmg inflicting {max(0, (self.weapon.dmg * 2))} z {self.weapon.name}")
+                elif isinstance(self, Berserk):
+                    target.hp -= max(0, self.weapon.dmg)
+                    target.hp = max(target.hp, 0)
+
+                    print(
+                        f"{self.name} {self.class_name} dealt {self.weapon.dmg}dmg inflicting {max(0, self.weapon.dmg - target.armor.protection)} with {self.weapon.name}")
+                    print(f"{self.name} {self.class_name} Attacked again!")
+                    self.attack(target)
 
                 else:
                     target.hp -= max(0, (self.weapon.dmg * 2) - target.armor.protection)
@@ -116,6 +126,11 @@ class Archer(Character):
         super().__init__(class_name=class_name, name=name, hp=80, crit=30, armor=armor, weapon=weapon, mana=0, pot=3)
 
 
+class Berserk(Character):
+    def __init__(self, class_name: str, name: str, armor: str, weapon: str, ) -> None:
+        super().__init__(class_name=class_name, name=name, hp=100, crit=30, armor=armor, weapon=weapon, mana=0, pot=3)
+
+
 class Mage(Character):
     def __init__(self, class_name: str, name: str, armor: str, weapon: str, spell: str) -> None:
         super().__init__(class_name=class_name, name=name, hp=70, crit=20, armor=armor, weapon=weapon, mana=150, pot=0)
@@ -173,6 +188,9 @@ def chosen_character(player_name, characters: list):
                 elif characters[choice] == Mage:
                     return Mage(class_name="Mage", armor=random.choice(mage_armor), weapon=random.choice(mage_weapon),
                                 spell=random.choice(mage_spell), name=player_name)
+                elif characters[choice] == Berserk:
+                    return Berserk(class_name="Berserk", armor=random.choice(berserk_armor),
+                                   weapon=random.choice(berserk_weapons), name=player_name)
             else:
                 print("Wrong number choose again")
         except ValueError:
