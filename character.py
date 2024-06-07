@@ -98,7 +98,7 @@ class Character:
                                 print(f"{self.name} {self.class_name} have currently {self.mana} left")
                                 print("Choose spell to cast:")
                                 for i, spell in enumerate(mage_spell, start=1):
-                                    print(f"{i}. {spell.class_name} ({spell.mana} mana)")
+                                    print(f"{i}. {spell.name} ({spell.mana} mana)")
                                 print()
                                 spell_choice = int(input(f"{self.class_name} choose spell to cast")) - 1
                                 if 0 <= spell_choice < len(mage_spell):
@@ -152,29 +152,29 @@ class Mage(Character):
             else:
                 self.cast_damage_spell(target, spell)
         else:
-            print(f"{self.class_name}, you don't have enough mana")
+            print(f"{self.name}, you don't have enough mana")
             Character.action(self, target)
 
     def cast_power_up(self, spell):
         rand = random.randint(1, 3)
         self.weapon.dmg += spell.dmg + rand
-        print(f"{self.name} {self.class_name} cast {spell.class_name} powering himself for {spell.dmg + rand}")
+        print(f"{self.name} {self.name} cast {spell.name} powering himself for {spell.dmg + rand}")
 
     def cast_greater_heal(self, spell):
         rand = random.randint(6, 20)
         self.hp += spell.dmg + rand
-        print(f"{self.name} {self.class_name} cast {spell.class_name} healing himself for {spell.dmg + rand}")
+        print(f"{self.name} {self.name} cast {spell.name} healing himself for {spell.dmg + rand}")
 
     def cast_damage_spell(self, target, spell):
         if random.randint(1, 100) <= self.crit:
             critChance = True
         else:
             critChance = False
-        rand = random.randint(0, 12) if spell.class_name == "Fireball" else random.randint(2, 8)
+        rand = random.randint(0, 12) if spell.name == "Fireball" else random.randint(2, 8)
         dmg = (spell.dmg + rand) * 2 if critChance else spell.dmg + rand
         target.hp -= max(0, dmg)
         print(
-            f"{self.name} {self.class_name} cast {spell.class_name} {'DEALING CRITICAL ' if critChance else 'dealing'} {dmg}dmg")
+            f"{self.name} {self.name} cast {spell.name} {'DEALING CRITICAL ' if critChance else 'dealing'} {dmg}dmg")
 
 
 def chosen_character(player_name, characters: list):
