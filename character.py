@@ -17,42 +17,48 @@ class Character:
         self.pot = pot
 
     def attack(self, target) -> None:
-        if random.randint(1, 100) >= target.armor.dodge:
-            if random.randint(0, 100) <= self.crit:
-                if self.weapon.weapon_type == "Magic":
-                    target.hp -= max(0, (self.weapon.dmg * 2))
-                    target.hp = max(target.hp, 0)
-                    print(
-                        f"{self.name} {self.class_name} dealt CRITICAL {self.weapon.dmg * 2}dmg inflicting {max(0, (self.weapon.dmg * 2))} z {self.weapon.name}")
-                elif isinstance(self, Berserk):
-                    target.hp -= max(0, self.weapon.dmg)
-                    target.hp = max(target.hp, 0)
-
-                    print(
-                        f"{self.name} {self.class_name} dealt {self.weapon.dmg}dmg inflicting {max(0, self.weapon.dmg - target.armor.protection)} with {self.weapon.name}")
-                    print(f"{self.name} {self.class_name} Attacked again!")
-                    self.attack(target)
-
-                else:
-                    target.hp -= max(0, (self.weapon.dmg * 2) - target.armor.protection)
-                    target.hp = max(target.hp, 0)
-                    print(
-                        f"{self.name} {self.class_name} dealt CRITICAL {self.weapon.dmg * 2}dmg inflicting {max(0, (self.weapon.dmg * 2) - target.armor.protection)} z {self.weapon.name}")
-
+        if self.hit_target(target):
+            if self.is_critical_hit():
+                self.deal_damage(target, critical=True)
             else:
-                if self.weapon.weapon_type == "Magic":
-                    target.hp -= max(0, self.weapon.dmg)
-                    target.hp = max(target.hp, 0)
-                    print(
-                        f"{self.name} {self.class_name} dealt {self.weapon.dmg}dmg inflicting {max(0, self.weapon.dmg)} with {self.weapon.name}")
-                else:
-                    target.hp -= max(0, self.weapon.dmg - target.armor.protection)
-                    target.hp = max(target.hp, 0)
-                    print(
-                        f"{self.name} {self.class_name} dealt {self.weapon.dmg}dmg inflicting {max(0, self.weapon.dmg - target.armor.protection)} with {self.weapon.name}")
+                self.deal_damage(target, critical=False)
         else:
-            print(
-                f"{self.name} {self.class_name} miss the target")
+            self.miss_attack(target)
+
+    def hit_target(self, target) -> bool:
+        return random.randint(1, 100) >= target.armor.dodge
+
+    def is_critical_hit(self) -> bool:
+        return random.randint(0, 100) <= self.crit
+
+    def deal_damage(self, target, critical: bool) -> None:
+        weapon = self.weapon
+        if critical:
+            if isinstance(self, Berserk):
+                base_damage = weapon.dmg
+                crit_text = ""
+            else:
+                base_damage = weapon.dmg * 2
+                crit_text = "CRITICAL "
+        else:
+            base_damage = weapon.dmg
+            crit_text = ""
+
+        if weapon.weapon_type == "Magic":
+            inflicted_damage = base_damage
+        else:
+            inflicted_damage = max(0, base_damage - target.armor.protection)
+
+        target.hp = max(target.hp - inflicted_damage, 0)
+        print(
+            f"{self.name} {self.class_name} dealt {crit_text}{base_damage}dmg inflicting {inflicted_damage} with {weapon.name}")
+
+        if isinstance(self, Berserk) and critical:
+            print(f"{self.name} {self.class_name} attacked again!")
+            self.attack(target)
+
+    def miss_attack(self, target) -> None:
+        print(f"{self.name} {self.class_name} missed the target")
 
     def potion(self, target) -> None:
         print(f"{self.name} {self.class_name} have currently {self.pot} potions left")
