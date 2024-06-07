@@ -134,8 +134,11 @@ class Archer(Character):
 
 class Berserk(Character):
     def __init__(self, class_name: str, name: str, armor: str, weapon: str, ) -> None:
-        super().__init__(class_name=class_name, name=name, hp=100, crit=30, armor=armor, weapon=weapon, mana=0, pot=3)
+        super().__init__(class_name=class_name, name=name, hp=100, crit=30, armor=armor, weapon=weapon, mana=0, pot=0)
 
+class Vampire(Character):
+    def __init__(self, class_name: str, name: str, armor: str, weapon: str, ) -> None:
+        super().__init__(class_name=class_name, name=name, hp=100, crit=30, armor=armor, weapon=weapon, mana=0, pot=0)
 
 class Mage(Character):
     def __init__(self, class_name: str, name: str, armor: str, weapon: str, spell: str) -> None:
@@ -178,13 +181,16 @@ class Mage(Character):
 
 
 def chosen_character(player_name, characters: list):
+    print(f"0.  Class description")
     for i, character_class in enumerate(characters, start=1):
         print(f"{i}.  {character_class.__name__}")
 
     while True:
         try:
-            choice = int(input(f"{player_name} choose your character")) - 1
-            if 0 <= choice < len(characters):
+            choice = int(input(f"{player_name} choose your character"))
+            if choice == 0:
+                description()
+            elif 0 <= choice < len(characters):
                 if characters[choice] == Warrior:
                     return Warrior(class_name="Warrior", armor=random.choice(warrior_armor),
                                    weapon=random.choice(warrior_weapons), name=player_name)
@@ -201,3 +207,11 @@ def chosen_character(player_name, characters: list):
                 print("Wrong number choose again")
         except ValueError:
             print("Please enter a number")
+
+def description():
+    print("Warrior - High damage tank with more armor and less dodge chance")
+    print("Archer - Medium damage ranger with high dodge chance and almost zero armor")
+    print("Mage - Low base damage but have powerful arsenal of spells, low survivability")
+    print("Berserk - High damage and have a chance to attack many times, low armor and dodge chance")
+    print("Vampire - Medium damage and survivability but can steal life from enemy")
+
