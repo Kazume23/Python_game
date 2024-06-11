@@ -1,0 +1,36 @@
+Project Objectives
+0.5. Randomize stats and equipment for opponents                                    DONE
+1. Implement armor restrictions based on class (e.g., archers can't wear iron)      DONE
+2. Implement dodge and critical mechanics                                           DONE
+3. Implement player death and display results                                       DONE
+4. Create character classes with equipment selection and damage calculation         DONE
+5. Add mage class and other modifiers for mage damage                               DONE
+6. Refactor code for clarity                                                        DONE
+7. Allow players to choose classes                                                  DONE
+8. Add spells for mages for damage and healing                                      DONE
+9. Rework combat for more dynamic action                                            DONE
+10. Distinguish between character classes and character names                       DONE
+11. Limit the number of potions available                                           DONE
+12. Implement equipment/armor choice with more options
+13. Refactor spells                                                                 DONE
+14. More dynamic and shorten fight
+15. Implementing graphic interface
+
+Fixes
+1. Fix dodge mechanics as it's occasionally malfunctioning (possibly math-related)  DONE
+2. Fix Git repository                                                               DONE
+3. Refactor to English                                                              DONE
+4. Assign player names to selected classes                                          DONE
+5. Ensure mirrored classes have the same HP                                         DONE
+
+Balance
+1. Test character balance and mage balance                                          Testing
+2. Make Excel sheets for combat statistic
+
+Pygame
+1. Make background and other images
+2.
+
+Fight Summary
+
+Warior - Archer: (Axe 0-1 Pistol 4:48) (Halberd 0-1 Crossbow 2:14) (Axe 1:0 Crossbow 22:14) (Sword 0 - 1 Flintlock pistol  0:44) (Axe 1 - 0 Crossbow  26:0) (Sword 1 - 0 Bow  6:0) (Halberd 1 - 0 Bow  14:0) (Sword 0 - 1 Flintlock pistol  0:48) (Halberd 1 - 0 Crossbow  6:0) (Axe 1 - 0 Bow  24:0)
