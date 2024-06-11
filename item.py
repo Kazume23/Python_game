@@ -2,7 +2,7 @@ import random
 
 
 class Armor:
-    def __init__(self, name: str, protection: int, armor_type: str, dodge: int, value: int) -> None:
+    def __init__(self, name: str, protection: float, armor_type: str, dodge: int, value: int) -> None:
         self.name = name
         self.protection = protection
         self.armor_type = armor_type
@@ -12,7 +12,7 @@ class Armor:
 
 
 class Weapon:
-    def __init__(self, name: str, dmg: int, weapon_type: str, speed: float, value: int) -> None:
+    def __init__(self, name: str, dmg: float, weapon_type: str, speed: float, value: int) -> None:
         self.name = name
         self.dmg = dmg
         self.weapon_type = weapon_type

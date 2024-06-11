@@ -1,10 +1,9 @@
 import random
-
 from item import *
 
 
 class Character:
-    def __init__(self, class_name: str, name: str, hp: int, crit: int, armor: str, weapon: str, mana: int, pot: int):
+    def __init__(self, class_name: str, name: str, hp: float, crit: int, armor: str, weapon: str, mana: int, pot: int):
         self.class_name = class_name
         self.name = name
         self.hp = hp
@@ -19,15 +18,9 @@ class Character:
     def attack(self, target) -> None:
         if self.hit_target(target):
             if self.is_critical_hit():
-                if isinstance(self, Vampire):
-                    self.lifesteal_damage(target, critical=True)
-                else:
-                    self.deal_damage(target, critical=True)
+                self.deal_damage(target, critical=True)
             else:
-                if isinstance(self, Vampire):
-                    self.lifesteal_damage(target, critical=False)
-                else:
-                    self.deal_damage(target, critical=False)
+                self.deal_damage(target, critical=False)
         else:
             self.miss_attack(target)
 
@@ -36,25 +29,6 @@ class Character:
 
     def is_critical_hit(self) -> bool:
         return random.randint(0, 100) <= self.crit
-
-    def lifesteal_damage(self, target, critical: bool) -> None:
-        weapon = self.weapon
-        if critical:
-            base_damage = weapon.dmg * 2
-            crit_text = "CRITICAL"
-        else:
-            base_damage = weapon.dmg
-            crit_text = ""
-
-        if weapon.weapon_type == "Magic":
-            inflicted_damage = base_damage
-        else:
-            inflicted_damage = max(0, base_damage - target.armor.protection)
-
-        target.hp = max(target.hp - inflicted_damage, 0)
-        self.hp += max(0, inflicted_damage)
-        print(
-            f"{self.name} {self.class_name} dealt {crit_text}{base_damage}dmg inflicting {inflicted_damage} with {weapon.name} and healed himself for {inflicted_damage}")
 
     def deal_damage(self, target, critical: bool) -> None:
         weapon = self.weapon
@@ -75,8 +49,15 @@ class Character:
             inflicted_damage = max(0, base_damage - target.armor.protection)
 
         target.hp = max(target.hp - inflicted_damage, 0)
+
+        if isinstance(self, Vampire):
+            self.hp += max(0, inflicted_damage)
+            heal_text = f" and healed himself for {inflicted_damage}"
+        else:
+            heal_text = ""
+
         print(
-            f"{self.name} {self.class_name} dealt {crit_text}{base_damage}dmg inflicting {inflicted_damage} with {weapon.name}")
+            f"{self.name} {self.class_name} dealt {crit_text}{base_damage}dmg inflicting {inflicted_damage} with {weapon.name}{heal_text}")
 
         if isinstance(self, Berserk) and critical:
             print(f"{self.name} {self.class_name} attacked again!")
@@ -84,6 +65,50 @@ class Character:
 
     def miss_attack(self, target) -> None:
         print(f"{self.name} {self.class_name} missed the target")
+
+    def feint(self, target, critical: bool):
+        weapon = self.weapon
+        print("Attack for 1/2 and enemy have less dodge chance for 2/3 turns")
+        original_protection = target.armor.protection
+        original_dodge = target.armor.dodge
+
+        target.armor.protection *= 0.2
+        target.armor.dodge *= 0.1
+
+        if critical:
+            base_damage = max(0, round(self.weapon.dmg - target.armor.protection))
+            crit_text = "CRITICAL"
+        else:
+            base_damage = max(0, round(self.weapon.dmg * 0.8) - target.armor.protection)
+            crit_text = ""
+
+        if weapon.weapon_type == "Magic":
+            inflicted_damage = base_damage
+        else:
+
+            inflicted_damage = max(0, base_damage - target.armor.protection)
+            print(f"Before {inflicted_damage}")
+
+        target.hp = round(max(target.hp - inflicted_damage, 0))
+
+        if isinstance(self, Vampire):
+            self.hp += max(0, inflicted_damage)
+            heal_text = f" and healed himself for {inflicted_damage}"
+        else:
+            heal_text = ""
+
+        if isinstance(self, Berserk) and critical:
+            print(f"{self.name} {self.class_name} attacked again!")
+            self.feint(target, self.is_critical_hit())
+
+        print(
+            f"{self.name} {self.class_name} dealt {crit_text} {base_damage}dmg inflicting {inflicted_damage} with {weapon.name}")
+
+        target.armor.protection = original_protection
+        target.armor.dodge = original_dodge
+
+    def frenzy(self, target):
+        print("Have more damage but protection/dodge is off OR enemy have more damage")
 
     def potion(self, target) -> None:
         print(f"{self.name} {self.class_name} have currently {self.pot} potions left")
@@ -98,10 +123,12 @@ class Character:
 
     def action(self, target):
         global spell_choice
+        action_list = ["Attack", "Heal", "Feint", "Frenzy"]
+
         if isinstance(self, Mage):
-            action_list = ["Attack", "Heal", "Cast spell"]
-        else:
-            action_list = ["Attack", "Heal"]
+            action_list.append("Cast spell")
+            spell = self.spell
+
         print()
         print(f"What do you want to do {self.name} {self.class_name}?")
         for i, action in enumerate(action_list, start=1):
@@ -109,7 +136,7 @@ class Character:
 
         while True:
             try:
-                choice = int(input(f"{self.name} {self.class_name} Choose action"))
+                choice = int(input(f"{self.name} {self.class_name} Choose action: "))
                 if 0 < choice <= len(action_list):
                     if choice == 1:
                         self.attack(target)
@@ -117,15 +144,21 @@ class Character:
                     elif choice == 2:
                         self.potion(target)
                         break
-                    elif choice == 3 and isinstance(self, Mage):
+                    elif choice == 3:
+                        self.attack(target, is_feint=True)
+                        break
+                    elif choice == 4:
+                        self.attack(target, is_frenzy=True)
+                        break
+                    elif choice == 5 and isinstance(self, Mage):
                         while True:
                             try:
-                                print(f"{self.name} {self.class_name} have currently {self.mana} left")
+                                print(f"{self.name} {spell.name} have currently {self.mana} left")
                                 print("Choose spell to cast:")
                                 for i, spell in enumerate(mage_spell, start=1):
                                     print(f"{i}. {spell.name} ({spell.mana} mana)")
                                 print()
-                                spell_choice = int(input(f"{self.class_name} choose spell to cast")) - 1
+                                spell_choice = int(input(f"{self.name} choose spell to cast: ")) - 1
                                 if 0 <= spell_choice < len(mage_spell):
                                     self.cast_spell(target, mage_spell[spell_choice])
                                     break
@@ -214,7 +247,7 @@ def chosen_character(player_name, characters: list):
 
     while True:
         try:
-            choice = int(input(f"{player_name} choose your character")) -1
+            choice = int(input(f"{player_name} choose your character")) - 1
             if choice == -1:
                 description()
             elif -1 < choice < len(characters):
