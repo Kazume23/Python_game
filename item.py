@@ -43,6 +43,10 @@ berserk_weapons = [
     Weapon("Axe", 8, "Melee", 0.90, 60)
 ]
 
+vampire_weapon = [
+    Weapon("Teeth", 4, "Magic", 1.20, 0)
+]
+
 mage_weapon = [
     Weapon("Magician's staff", 4, "Magic", 1.2, 200),
     Weapon("Stick called Jeff", 8, "Melee", 1.6, 2137)
@@ -61,7 +65,11 @@ archer_armor = [
 ]
 
 berserk_armor = [
-    Armor("Chest", 0,"Light",10,0)
+    Armor("Chest", 0, "Light", 10, 0)
+]
+
+vampire_armor = [
+    Armor("Coat", 0, "Light", 35, 0)
 ]
 
 mage_armor = [

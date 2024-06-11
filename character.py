@@ -19,9 +19,15 @@ class Character:
     def attack(self, target) -> None:
         if self.hit_target(target):
             if self.is_critical_hit():
-                self.deal_damage(target, critical=True)
+                if isinstance(self, Vampire):
+                    self.lifesteal_damage(target, critical=True)
+                else:
+                    self.deal_damage(target, critical=True)
             else:
-                self.deal_damage(target, critical=False)
+                if isinstance(self, Vampire):
+                    self.lifesteal_damage(target, critical=False)
+                else:
+                    self.deal_damage(target, critical=False)
         else:
             self.miss_attack(target)
 
@@ -30,6 +36,25 @@ class Character:
 
     def is_critical_hit(self) -> bool:
         return random.randint(0, 100) <= self.crit
+
+    def lifesteal_damage(self, target, critical: bool) -> None:
+        weapon = self.weapon
+        if critical:
+            base_damage = weapon.dmg * 2
+            crit_text = "CRITICAL"
+        else:
+            base_damage = weapon.dmg
+            crit_text = ""
+
+        if weapon.weapon_type == "Magic":
+            inflicted_damage = base_damage
+        else:
+            inflicted_damage = max(0, base_damage - target.armor.protection)
+
+        target.hp = max(target.hp - inflicted_damage, 0)
+        self.hp += max(0, inflicted_damage)
+        print(
+            f"{self.name} {self.class_name} dealt {crit_text}{base_damage}dmg inflicting {inflicted_damage} with {weapon.name} and healed himself for {inflicted_damage}")
 
     def deal_damage(self, target, critical: bool) -> None:
         weapon = self.weapon
@@ -136,9 +161,11 @@ class Berserk(Character):
     def __init__(self, class_name: str, name: str, armor: str, weapon: str, ) -> None:
         super().__init__(class_name=class_name, name=name, hp=100, crit=30, armor=armor, weapon=weapon, mana=0, pot=0)
 
+
 class Vampire(Character):
     def __init__(self, class_name: str, name: str, armor: str, weapon: str, ) -> None:
-        super().__init__(class_name=class_name, name=name, hp=100, crit=30, armor=armor, weapon=weapon, mana=0, pot=0)
+        super().__init__(class_name=class_name, name=name, hp=100, crit=15, armor=armor, weapon=weapon, mana=0, pot=0)
+
 
 class Mage(Character):
     def __init__(self, class_name: str, name: str, armor: str, weapon: str, spell: str) -> None:
@@ -203,10 +230,14 @@ def chosen_character(player_name, characters: list):
                 elif characters[choice] == Berserk:
                     return Berserk(class_name="Berserk", armor=random.choice(berserk_armor),
                                    weapon=random.choice(berserk_weapons), name=player_name)
+                elif characters[choice] == Vampire:
+                    return Vampire(class_name="Vampire", armor=random.choice(vampire_armor),
+                                   weapon=random.choice(vampire_weapon), name=player_name)
             else:
                 print("Wrong number choose again")
         except ValueError:
             print("Please enter a number")
+
 
 def description():
     print("Warrior - High damage tank with more armor and less dodge chance")
@@ -214,4 +245,3 @@ def description():
     print("Mage - Low base damage but have powerful arsenal of spells, low survivability")
     print("Berserk - High damage and have a chance to attack many times, low armor and dodge chance")
     print("Vampire - Medium damage and survivability but can steal life from enemy")
-
