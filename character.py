@@ -214,10 +214,10 @@ def chosen_character(player_name, characters: list):
 
     while True:
         try:
-            choice = int(input(f"{player_name} choose your character"))
-            if choice == 0:
+            choice = int(input(f"{player_name} choose your character")) -1
+            if choice == -1:
                 description()
-            elif 0 <= choice < len(characters):
+            elif -1 < choice < len(characters):
                 if characters[choice] == Warrior:
                     return Warrior(class_name="Warrior", armor=random.choice(warrior_armor),
                                    weapon=random.choice(warrior_weapons), name=player_name)

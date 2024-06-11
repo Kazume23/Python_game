@@ -44,7 +44,7 @@ berserk_weapons = [
 ]
 
 vampire_weapon = [
-    Weapon("Teeth", 4, "Magic", 1.20, 0)
+    Weapon("Teeth", 3, "Magic", 1.20, 0)
 ]
 
 mage_weapon = [
@@ -69,7 +69,7 @@ berserk_armor = [
 ]
 
 vampire_armor = [
-    Armor("Coat", 0, "Light", 35, 0)
+    Armor("Coat", 1, "Light", 25, 0)
 ]
 
 mage_armor = [
