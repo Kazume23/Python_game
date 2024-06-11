@@ -15,22 +15,58 @@ class Character:
         self.mana = mana
         self.pot = pot
 
-    def attack(self, target) -> None:
+        self.frenzy_active = False
+        self.frenzy_turns = 0
+
+    def attack(self, target, feint=False, frenzy=False) -> None:
+
+        if self.frenzy_active:
+            frenzy = True
+
+        original_protection = target.armor.protection
+        original_dodge = target.armor.dodge
+        damage_multiplier = 1.0
+
+        if feint:
+            target.armor.protection *= 0.2
+            target.armor.dodge *= 0.2
+            damage_multiplier = 0.8
+        elif frenzy:
+            damage_multiplier = 1.5
+
         if self.hit_target(target):
             if self.is_critical_hit():
-                self.deal_damage(target, critical=True)
+                self.deal_damage(target, critical=True, damage_multiplier=damage_multiplier)
             else:
-                self.deal_damage(target, critical=False)
+                self.deal_damage(target, critical=False, damage_multiplier=damage_multiplier)
         else:
             self.miss_attack(target)
+
+        target.armor.protection = original_protection
+        target.dodge = original_dodge
 
     def hit_target(self, target) -> bool:
         return random.randint(1, 100) >= target.armor.dodge
 
+    def feint(self, target) -> None:
+        self.attack(target, feint=True)
+
+    def frenzy(self, target, turns=3) -> None:
+        self.frenzy_active = True
+        self.frenzy_turns = turns
+
+        self.original_protection = self.armor.protection
+        self.original_dodge = self.armor.dodge
+
+        self.armor.protection = 0
+        self.armor.dodge = 0
+
+        self.attack(target, frenzy=True)
+
     def is_critical_hit(self) -> bool:
         return random.randint(0, 100) <= self.crit
 
-    def deal_damage(self, target, critical: bool) -> None:
+    def deal_damage(self, target, critical: bool, damage_multiplier=1.0) -> None:
         weapon = self.weapon
         if critical:
             if isinstance(self, Berserk):
@@ -43,10 +79,12 @@ class Character:
             base_damage = weapon.dmg
             crit_text = ""
 
+        base_damage *= damage_multiplier
+
         if weapon.weapon_type == "Magic":
-            inflicted_damage = base_damage
+            inflicted_damage = round(base_damage, 1)
         else:
-            inflicted_damage = max(0, base_damage - target.armor.protection)
+            inflicted_damage = round(max(0, base_damage - target.armor.protection), 1)
 
         target.hp = max(target.hp - inflicted_damage, 0)
 
@@ -63,52 +101,22 @@ class Character:
             print(f"{self.name} {self.class_name} attacked again!")
             self.attack(target)
 
+        print(f"Current weapon damage {base_damage}")
+        print(f"Current weapon Inflicted {inflicted_damage}")
+        print(f"Current armor protection {self.armor.protection}")
+        print(f"Current armor dodge {self.armor.dodge}")
+
     def miss_attack(self, target) -> None:
         print(f"{self.name} {self.class_name} missed the target")
 
-    def feint(self, target, critical: bool):
-        weapon = self.weapon
-        print("Attack for 1/2 and enemy have less dodge chance for 2/3 turns")
-        original_protection = target.armor.protection
-        original_dodge = target.armor.dodge
-
-        target.armor.protection *= 0.2
-        target.armor.dodge *= 0.1
-
-        if critical:
-            base_damage = max(0, round(self.weapon.dmg - target.armor.protection))
-            crit_text = "CRITICAL"
-        else:
-            base_damage = max(0, round(self.weapon.dmg * 0.8) - target.armor.protection)
-            crit_text = ""
-
-        if weapon.weapon_type == "Magic":
-            inflicted_damage = base_damage
-        else:
-
-            inflicted_damage = max(0, base_damage - target.armor.protection)
-            print(f"Before {inflicted_damage}")
-
-        target.hp = round(max(target.hp - inflicted_damage, 0))
-
-        if isinstance(self, Vampire):
-            self.hp += max(0, inflicted_damage)
-            heal_text = f" and healed himself for {inflicted_damage}"
-        else:
-            heal_text = ""
-
-        if isinstance(self, Berserk) and critical:
-            print(f"{self.name} {self.class_name} attacked again!")
-            self.feint(target, self.is_critical_hit())
-
-        print(
-            f"{self.name} {self.class_name} dealt {crit_text} {base_damage}dmg inflicting {inflicted_damage} with {weapon.name}")
-
-        target.armor.protection = original_protection
-        target.armor.dodge = original_dodge
-
-    def frenzy(self, target):
-        print("Have more damage but protection/dodge is off OR enemy have more damage")
+    def end_frenzy(self):
+        if self.frenzy_active:
+            self.frenzy_turns -= 1
+            if self.frenzy_turns <= 0:
+                self.frenzy_active = False
+                self.armor.protection = self.original_protection
+                self.armor.dodge = self.original_dodge
+                print(f"{self.name} {self.class_name} is no longer in Frenzy mode")
 
     def potion(self, target) -> None:
         print(f"{self.name} {self.class_name} have currently {self.pot} potions left")
@@ -145,10 +153,10 @@ class Character:
                         self.potion(target)
                         break
                     elif choice == 3:
-                        self.attack(target, is_feint=True)
+                        self.feint(target)
                         break
                     elif choice == 4:
-                        self.attack(target, is_frenzy=True)
+                        self.frenzy(target)
                         break
                     elif choice == 5 and isinstance(self, Mage):
                         while True:
@@ -178,6 +186,8 @@ class Character:
             except ValueError:
                 print()
                 print("Please enter a number")
+
+        self.end_frenzy()
 
 
 class Warrior(Character):

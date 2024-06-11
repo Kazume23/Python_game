@@ -30,8 +30,8 @@ while True:
             break
 
     print()
-    print(f"HP {player.name} {player.class_name}: {player.hp}")
-    print(f"HP {enemy.name} {enemy.class_name}: {enemy.hp}")
+    print(f"HP {player.name} {player.class_name}: {round(player.hp,1)}")
+    print(f"HP {enemy.name} {enemy.class_name}: {round(enemy.hp,1)}")
 
     input()
 
