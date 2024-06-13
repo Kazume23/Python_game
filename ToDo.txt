@@ -13,8 +13,18 @@ Project Objectives
 11. Limit the number of potions available                                           DONE
 12. Implement equipment/armor choice with more options
 13. Refactor spells                                                                 DONE
-14. More dynamic and shorten fight
-15. Implementing graphic interface
+14. More dynamic and shorten fight                                                  DONE
+15. Implementing graphic interface                                                  DONEN'T
+16. Adding berserker class                                                          DONE
+17. Refactoring attack function                                                     DONE
+18. Refactoring action function                                                     DONE
+19. Adding Vampire class                                                            DONE
+20. Add Feint and Frenzy action                                                     DONE
+21. Refactoring Frenzy action                                                       DONE
+22. Make code more readable                                                         DONE
+23. Make Reinforce action
+24. Adding another spell class
+
 
 Fixes
 1. Fix dodge mechanics as it's occasionally malfunctioning (possibly math-related)  DONE
@@ -26,8 +36,10 @@ Fixes
 Balance
 1. Test character balance and mage balance                                          Testing
 2. Make Excel sheets for combat statistic
+3. Balance new class based on others
 
-Pygame
+
+Pygame      PROJECT SUSPENDED
 1. Make background and other images
 2.
 
